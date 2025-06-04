@@ -27,7 +27,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
         email: _emailController.text.trim(),
         password: _passwordController.text,
       );
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const HomeScreen()));
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => const HomeScreen()),
+      );
     } on FirebaseAuthException catch (e) {
       setState(() {
         errorMessage = e.message;
@@ -39,31 +42,104 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Sign Up')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            if (errorMessage != null)
-              Text(errorMessage!, style: const TextStyle(color: Colors.red)),
+    final theme = Theme.of(context);
 
-            TextField(
-              controller: _emailController,
-              decoration: const InputDecoration(labelText: 'Email'),
+    return Scaffold(
+      backgroundColor: const Color(0xFFFFF1F1),
+      resizeToAvoidBottomInset: false,
+      body: SafeArea(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            // Heading
+            Padding(
+              padding: const EdgeInsets.only(top: 32.0),
+              child: Text(
+                "Ready to ResQ People?",
+                style: theme.textTheme.headlineMedium,
+              ),
             ),
-            TextField(
-              controller: _passwordController,
-              decoration: const InputDecoration(labelText: 'Password'),
-              obscureText: true,
-            ),
-            const SizedBox(height: 20),
-            isLoading
-                ? const CircularProgressIndicator()
-                : ElevatedButton(
-                    onPressed: _signUp,
-                    child: const Text("Sign Up"),
+
+            // Form (scrollable)
+            Expanded(
+              child: Center(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (errorMessage != null)
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 12.0),
+                          child: Text(
+                            errorMessage!,
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              fontStyle: FontStyle.italic,
+                              color: Colors.red,
+                            ),                          
+                            ),
+                        ),
+                      TextField(
+                        controller: _emailController,
+                        decoration: const InputDecoration(labelText: 'Email'),
+                      ),
+                      const SizedBox(height: 16),
+                      TextField(
+                        controller: _passwordController,
+                        decoration: const InputDecoration(
+                          labelText: 'Password',
+                        ),
+                        obscureText: true,
+                      ),
+                      const SizedBox(height: 24),
+                      isLoading
+                          ? const CircularProgressIndicator()
+                          : ElevatedButton(
+                              onPressed: _signUp,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color.fromARGB(
+                                  255,
+                                  236,
+                                  88,
+                                  88,
+                                ),
+                                foregroundColor: Colors.white,
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 32,
+                                  vertical: 14,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                  side: BorderSide(
+                                    color: Colors.red.shade900,
+                                    width: 2,
+                                  ),
+                                ),
+                                textStyle: theme.textTheme.headlineSmall
+                                    ?.copyWith(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                              ),
+                              child: const Text("Lets Save Lives!"),
+                            ),
+                    ],
                   ),
+                ),
+              ),
+            ),
+
+            // Footer Quote
+            Padding(
+              padding: const EdgeInsets.only(bottom: 20.0),
+              child: Text(
+                "“Your health is your wealth – let's protect it together.”",
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  fontStyle: FontStyle.italic,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
           ],
         ),
       ),

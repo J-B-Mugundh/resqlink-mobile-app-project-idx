@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../utils/intent_utils.dart'; // ensure this is correctly imported
+// import '../utils/intent_utils.dart'; // ensure this is correctly imported
 
 class NotificationsPage extends StatelessWidget {
   const NotificationsPage({super.key});
@@ -22,7 +22,7 @@ class NotificationsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFFFF1F1), // light pastel red
-      appBar: AppBar(title: const Text('Active C')),
+      appBar: AppBar(title: const Text('Active Cases')),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection('cases')
@@ -49,7 +49,7 @@ class NotificationsPage extends StatelessWidget {
 
               return GestureDetector(
                 onTap: () {
-                  IntentUtils.launchGoogleMaps(latitude: lat, longitude: lng);
+                  // IntentUtils.launchGoogleMaps(latitude: lat, longitude: lng);
                 },
                 child: Card(
                   elevation: 2,
